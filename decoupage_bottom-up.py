@@ -1,18 +1,10 @@
 import sys
-
-#Entree: words: liste des mots, stringLength: longeur d'une ligne
-#Sortie: le nombre des espaces qui restent dans la ligne de longeur "stringLength" apres y avoir mis la sentence a partir des mots de "words"
-def spacesLeft(words, stringLength):
-        for x in range(0, len(words)):
-                stringLength -= len(words[x]);
-
-        stringLength -= len(words)-1;
-        return stringLength;
+from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne
 
 #Entree: words: liste des mots, stringLength: longeur d'une ligne
 #Sortie: le nombre des espaces en carre qui restent dans la ligne de longeur "stringLength" apres y avoir mis la sentence a partir des mots de "words"
 def spacesLeftSquared(words, stringLength):
-        return pow(spacesLeft(words, stringLength), 2)
+		return blancLigne(words, stringLength)
 
 def measureOfTextEquilibrium(text, stringLength):
 		somme = 0;
@@ -30,6 +22,22 @@ def possibleString(words, stringLength):
 				return False
 				
 		return True
+		
+def fusionTextes(text1, text2, stringLength):
+	fusionedString = text1[-1][:] + text2[0][:]
+	if(possibleString(fusionedString, stringLength)):
+		t1 = text1[:]
+		t2 = text2[:]
+		if(len(text1)>0):
+			text1.pop()
+		if(len(text2)>0):
+			text2.pop(0)
+		resultText = text1 + [fusionedString] + text2
+		
+		return True, measureOfTextEquilibrium(resultText, stringLength), resultText
+	else:
+		return False,0,[]
+
 		
 def equilibrium(words, stringLength):
 	wordsCount = len(words)
@@ -68,6 +76,12 @@ def equilibrium(words, stringLength):
 						stringMatrix[i][j] = stringMatrix[row][j] + stringMatrix[i][column]
 						
 					#Essai de fusion des soustextes
+					fusion = fusionTextes(stringMatrix[row][j][:], stringMatrix[i][column][:], stringLength)
+					if(fusion[0] and fusion[1] < weightMatrix[i][j]):
+						weightMatrix[i][j] = fusion[1]
+						stringMatrix[i][j] = fusion[2]
+						
+					"""
 					print "First part coord", row, j
 					print "First part:", stringMatrix[row][j]
 					print "First fusioned:", stringMatrix[row][j][-1]
@@ -95,22 +109,29 @@ def equilibrium(words, stringLength):
 							print "Fusioned text",resultText
 							weightMatrix[i][j] = sp
 							stringMatrix[i][j] = resultText
-							
+					"""
 					column = column + 1
 				
 
 			
-			print "Placed val",weightMatrix[i][j]
-			print "Placed string",stringMatrix[i][j]
-			print "##################"
+			#print "Placed val",weightMatrix[i][j]
+			#print "Placed string",stringMatrix[i][j]
+			#print "##################"
 			#print weightMatrix
 			#print stringMatrix
 		k = k+1;
 		m = m-1;
-		print "____________________"	
+		#print "____________________"	
 				
 	print stringMatrix[wordsCount-1][0]
 	print measureOfTextEquilibrium(stringMatrix[wordsCount-1][0], stringLength)
+	return stringMatrix[wordsCount-1][0], measureOfTextEquilibrium(stringMatrix[wordsCount-1][0], stringLength)
+
+def main():
+	f=equilibrium
+	decoupage(f)
 
 
-equilibrium(["la", "programmation", "dynamique", "est", "une", "strategie", "algorithmique"], 17)
+if __name__ == "__main__":
+	#creation du memo
+	main()
