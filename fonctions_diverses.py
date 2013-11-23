@@ -31,7 +31,7 @@ def longueur(t):
 
 
 def blancLigne(t,n):
-    return (n-longueur(t))**1000
+    return (n-longueur(t))**3
 
 #--------------------Fonction largs_corrects--------------------
 #---------------------------------------------------------------
@@ -122,11 +122,12 @@ def decoupage(fonction):
         
         start=time.time()
         
-        res=fonction(texte_formate,ligne)[0]
+        res=fonction(texte_formate,ligne)
 
         end=time.time()
         
         print "Le decoupage a pris %f secondes" % (end-start)
-        
-        texte_final=list_to_text(res)
+	print "Le déséquilibre est de ", res[1]
+       
+        texte_final=list_to_text(res[0])
         enregistre(texte_final,fichier_dest)
