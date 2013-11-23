@@ -1,15 +1,10 @@
 import sys
 from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne
 
-#Entree: words: liste des mots, stringLength: longeur d'une ligne
-#Sortie: le nombre des espaces en carre qui restent dans la ligne de longeur "stringLength" apres y avoir mis la sentence a partir des mots de "words"
-def spacesLeftSquared(words, stringLength):
-		return blancLigne(words, stringLength)
-
 def measureOfTextEquilibrium(text, stringLength):
 		somme = 0;
 		for i in range(0, len(text)):
-			somme += spacesLeftSquared(text[i], stringLength)
+			somme += blancLigne(text[i], stringLength)
 		return somme
 
 #Entree: words:liste des mots, stringLength:longeur d'une ligne
@@ -59,7 +54,7 @@ def equilibrium(words, stringLength):
 			#Remplissage des diagonales
 			if(i==j):
 				#Remplissage des diagonales principales par mots seuls et poids des lignes avec un seul mot
-				weightMatrix[i][j] = spacesLeftSquared([words[i]], stringLength)
+				weightMatrix[i][j] = blancLigne([words[i]], stringLength)
 				stringMatrix[i][j] = [[words[i]]]
 			else:
 				#Remplissage des autres diagonales
@@ -80,48 +75,11 @@ def equilibrium(words, stringLength):
 					if(fusion[0] and fusion[1] < weightMatrix[i][j]):
 						weightMatrix[i][j] = fusion[1]
 						stringMatrix[i][j] = fusion[2]
-						
-					"""
-					print "First part coord", row, j
-					print "First part:", stringMatrix[row][j]
-					print "First fusioned:", stringMatrix[row][j][-1]
-					print "Second part coord", i, column
-					print "Second part:", stringMatrix[i][column]
-					print "Second fusioned", stringMatrix[i][column][0]
-					fusionedString = stringMatrix[row][j][-1] + stringMatrix[i][column][0]
-					print "Concat fusioned",fusionedString
-					if(possibleString(fusionedString, stringLength)):
-						print "Can put"
-						text1 = stringMatrix[row][j][:]
-						text2 = stringMatrix[i][column][:]
-						if(len(text1)>0):
-							text1.pop()
-						print "First third ", text1
-						if(len(text2)>0):
-							text2.pop(0)
-						print "Third third", text2
-						resultText = text1 + [fusionedString] + text2
-						print "Result", resultText
-						sp = measureOfTextEquilibrium(resultText, stringLength)
-						if(sp < weightMatrix[i][j]):
-							print "Put fusioned"
-							print "Value", sp
-							print "Fusioned text",resultText
-							weightMatrix[i][j] = sp
-							stringMatrix[i][j] = resultText
-					"""
-					column = column + 1
-				
 
-			
-			#print "Placed val",weightMatrix[i][j]
-			#print "Placed string",stringMatrix[i][j]
-			#print "##################"
-			#print weightMatrix
-			#print stringMatrix
+					column = column + 1
+					
 		k = k+1;
 		m = m-1;
-		#print "____________________"	
 				
 	print stringMatrix[wordsCount-1][0]
 	print measureOfTextEquilibrium(stringMatrix[wordsCount-1][0], stringLength)

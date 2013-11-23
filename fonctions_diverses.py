@@ -126,7 +126,7 @@ def decoupage(fonction):
 
         end=time.time()
         
-        print "Le decoupage a prit %f secondes" % (end-start)
+        print "Le decoupage a pris %f secondes" % (end-start)
         
         texte_final=list_to_text(res)
         enregistre(texte_final,fichier_dest)
