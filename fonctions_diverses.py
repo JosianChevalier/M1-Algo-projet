@@ -8,7 +8,40 @@ import time
 #---------------------------------------------------------------------------------
 
 
+#-------------------------------Memoization----------------------------
+#----------------------------------------------------------------------
+
+#entrée du memo,composée de la portion de texte équilibré et du poid de l'équilibrage, associé dans le
+#dictionnaire à l'indice du mot ou commence la portion de texte
+
+class Data_entry:
+    def __init__(self,r,s):
+        self.result=r
+        self.sum=s
+
+#mémo où sont stocké les équilibrages déjà calculés
+
+class Memo:
+    def __init__(self):
+        self.data=dict()
+
+    def add(self,ind,fin_texte,somme):
+        d=Data_entry(fin_texte,somme)
+        self.data[ind]=d
+
+    def get(self,i):
+        try:
+            res=self.data[i]
+        except KeyError:
+            return -1
+        return res.result, res.sum
+
+
+
+
+          
 #--------------------Fonction longueur--------------------
+#---------------------------------------------------------
 #Entrée : une liste de strings t
 #Sortie : (La somme de la longueur de chaque string de t) + (le nombre de string dans t)-1
 #        (i.e. la longueur du texte formé par la succession de ces strings)
@@ -25,6 +58,7 @@ def longueur(t):
 
 
 #--------------------Fonction blancLigne--------------------
+#-----------------------------------------------------------
 #Entrée : une liste de strings t, un entier n, tels que longueur(t)<=n
 #Sortie : le cube de n - longueur(t)
 #(i.e. le cube du nombre de caractères vides laissés sur une ligne de taille n par les mots de t
@@ -33,7 +67,25 @@ def longueur(t):
 def blancLigne(t,n):
     return (n-longueur(t))**3
 
-#--------------------Fonction largs_corrects--------------------
+
+
+#--------------------Fonction min-------------------------
+#---------------------------------------------------------
+#Surcharge de la fonction min de python telle que 'infini' est considéré comme un int de valeur infinie
+
+def min(s1,s2):
+    if s1=='infini':
+        return s2
+    elif s2=='infini':
+        return s1
+    elif s1>s2:
+        return s2
+    else:
+        return s1
+
+
+
+#--------------------Fonction args_corrects--------------------
 #---------------------------------------------------------------
 
 #vérifie que les arguments entrés sur la ligne de commande sont corrects et renvoie un tuple (a,src,dest,length)

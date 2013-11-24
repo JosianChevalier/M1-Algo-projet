@@ -1,62 +1,17 @@
 # -*- coding: UTF-8 -*-
 import sys
 sys.setrecursionlimit(50000) #Augmentation du nb max de mots à traiter
-from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage
+from fonctions_diverses import decoupage, Memo
 
 #---------------------------------------------------------------------------------
 #---------------------Approche programmation dynamique top-down-------------------
 #---------------------------------------------------------------------------------
-
-
-#-------------------------------Memoization----------------------------
-#----------------------------------------------------------------------
-
-#entrée du memo,composée de la portion de texte équilibré et du poid de l'équilibrage, associé dans le
-#dictionnaire à l'indice du mot ou commence la portion de texte
-
-class Data_entry:
-    def __init__(self,r,s):
-        self.result=r
-        self.sum=s
-
-#mémo où sont stocké les équilibrages déjà calculés
-
-class Memo:
-    def __init__(self):
-        self.data=dict()
-
-    def add(self,ind,fin_texte,somme):
-        d=Data_entry(fin_texte,somme)
-        self.data[ind]=d
-
-    def get(self,i):
-        try:
-            res=self.data[i]
-        except KeyError:
-            return -1
-        return res.result, res.sum
-          
-    
-
+  
 
 #--------------Fonctions utilisés par la fonction equilibre-------------
 #-----------------------------------------------------------------------
 
-from fonctions_diverses import longueur, blancLigne
-
-#--------------------Fonction min--------------------
-#Surcharge de la fonction min de python telle que 'infini' est considéré comme un int de valeur infinie
-
-def min(s1,s2):
-    if s1=='infini':
-        return s2
-    elif s2=='infini':
-        return s1
-    elif s1>s2:
-        return s2
-    else:
-        return s1
-
+from fonctions_diverses import longueur, blancLigne, min
 
 #-----------------------Fonctions d'équilibrage-------------------------
 #-----------------------------------------------------------------------
