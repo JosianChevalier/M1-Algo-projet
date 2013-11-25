@@ -4,7 +4,7 @@ sys.setrecursionlimit(50000) #Augmentation du nb max de mots à traiter
 from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, measureOfTextEquilibrium, possibleString
 
 #---------------------------------------------------------------------------------
-#------------------------------Approche force brut--------------------------------
+#------------------------------Approche force brute-------------------------------
 #---------------------------------------------------------------------------------
 
 
@@ -13,46 +13,22 @@ from fonctions_diverses import formate, args_corrects, enregistre, list_to_text,
 
 from fonctions_diverses import longueur, blancLigne
 
-#--------------------Fonction min--------------------
-#Surcharge de la fonction min de python telle que 'infini' est considéré comme un int de valeur infinie
-
-def min(s1,s2):
-    if s1=='infini':
-        return s2
-    elif s2=='infini':
-        return s1
-    elif s1>s2:
-        return s2
-    else:
-        return s1
-
-
 #-----------------------Fonctions d'équilibrage-------------------------
 #-----------------------------------------------------------------------
 
 def bruteForceWithTransition(words, text, measure, strl):
-    print "-----------------------------------"
-    print "With transition"
-    print "Words: ", words
-    print "Text: ", text
-    print "Measure: ",measure
-    
     if(words == []):
         return [],text,measure,strl
     else:
-        print "Added new string to the text ", text
         text.append([words[0]])
         newText = text[:]
         newText2 = text[:]
-        print "So, now it's", newText
         newMeasure = measure + blancLigne([words[0]], strl)
-        print "New measure: ",newMeasure
         newWords = words[:]
         if(type(newWords) is str):
             newWords = []
         else:
             newWords.pop(0)
-        print "Words rest: ",newWords
         
         a = bruteForceWithTransition(newWords, newText, newMeasure, strl)
         b = bruteForceWoTransition(newWords, newText2, newMeasure, strl)
@@ -63,37 +39,23 @@ def bruteForceWithTransition(words, text, measure, strl):
             return b
 
 def bruteForceWoTransition(words, text, measure, strl):
-    print "-----------------------------------"
-    print "Without transition"
-    print "Words: ", words
-    print "Text: ", text
-    print "Measure: ",measure
-    
     if(words == []):
         return [],text,measure,strl
     else:
         wordToJoin = words[0][:]
         lastString = text[-1][:]
-        print "Trying to add to string", lastString
-        print "word ", wordToJoin
         lastString.append(wordToJoin)
         if(possibleString(lastString , strl)):
-            print "It's possible, so last string is: ", lastString
             text.pop(-1)
             text.append(lastString)
             newText = text[:]
             newText2 = text[:]
-            print "Text result: ", newText
             newMeasure = measureOfTextEquilibrium(newText, strl)
-            print "Measure of this text ", newMeasure
-            print "Words were:", words
             newWords = words[:]
             if(type(newWords) is str):
                 newWords = []
             else:
                 newWords.pop(0)
-            
-            print "Words rest:", newWords
             
             a = bruteForceWithTransition(newWords, newText, newMeasure, strl)
             b = bruteForceWoTransition(newWords, newText2, newMeasure, strl)
@@ -103,7 +65,6 @@ def bruteForceWoTransition(words, text, measure, strl):
             else:
                 return b
         else:
-            print "But it's impossible"
             return [],[],sys.maxint,strl
 
 			
