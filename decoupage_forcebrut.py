@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import sys
 sys.setrecursionlimit(50000) #Augmentation du nb max de mots à traiter
-from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage
+from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, measureOfTextEquilibrium, possibleString
 
 #---------------------------------------------------------------------------------
 #------------------------------Approche force brut--------------------------------
@@ -29,23 +29,6 @@ def min(s1,s2):
 
 #-----------------------Fonctions d'équilibrage-------------------------
 #-----------------------------------------------------------------------
-
-def measureOfTextEquilibrium(text, stringLength):
-		somme = 0;
-		for i in range(0, len(text)):
-			somme += blancLigne(text[i], stringLength)
-		return somme
-
-#Entree: words:liste des mots, stringLength:longeur d'une ligne
-#Sortie: est-ce que c'est possible de mettre la sentence a partir des mots dans "words" en ligne de longeur "stringLength" 
-def possibleString(words, stringLength):
-		for x in range(0, len(words)):
-			if stringLength >= len(words[x]):
-				stringLength -= len(words[x])+1
-			else: 
-				return False
-				
-		return True
 
 def bruteForceWithTransition(words, text, measure, strl):
     print "-----------------------------------"

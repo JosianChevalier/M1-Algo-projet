@@ -1,24 +1,7 @@
 import sys
-from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne
+from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne, measureOfTextEquilibrium, possibleString
 
-#Entree: text: liste de listes des mots; stringLength:longeur d'une ligne
-#Sortie: somme des mesures d'inequilibre des lignes de texte
-def measureOfTextEquilibrium(text, stringLength): #O(n)
-		somme = 0;
-		for i in range(0, len(text)):
-			somme += blancLigne(text[i], stringLength)
-		return somme
 
-#Entree: words:liste des mots, stringLength:longeur de la ligne
-#Sortie: est-ce que c'est possible de mettre la proposition a partir des mots dans "words" en ligne de longeur "stringLength"
-def possibleString(words, stringLength): #O(n)
-		for x in range(0, len(words)):
-			if stringLength >= len(words[x]):
-				stringLength -= len(words[x])+1
-			else: 
-				return False
-				
-		return True
 
 #Entree: text1: liste de listes des mots; text2: liste de listes des mots; stringLength:longeur de la ligne
 #Sortie: Si c'est possible de fusionner la derniere proposition de text1 et la premiere proposition de text2,

@@ -183,3 +183,26 @@ def decoupage(fonction):
        
         texte_final=list_to_text(res[0])
         enregistre(texte_final,fichier_dest)
+
+#----------------Fonction measureOfTextEquilibrium----------------
+#-----------------------------------------------------------------
+#Entree: text: liste de listes des mots; stringLength:longeur d'une ligne
+#Sortie: somme des mesures d'inequilibre des lignes de texte
+def measureOfTextEquilibrium(text, stringLength): #O(n)
+    somme = 0;
+    for i in range(0, len(text)):
+        somme += blancLigne(text[i], stringLength)
+    return somme
+
+#----------------------Fonction possibleString--------------------
+#-----------------------------------------------------------------
+#Entree: words:liste des mots, stringLength:longeur de la ligne
+#Sortie: est-ce que c'est possible de mettre la proposition a partir des mots dans "words" en ligne de longeur "stringLength"
+def possibleString(words, stringLength): #O(n)
+    for x in range(0, len(words)):
+        if stringLength >= len(words[x]):
+            stringLength -= len(words[x])+1
+        else:
+            return False
+    
+    return True
