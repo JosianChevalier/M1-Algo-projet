@@ -57,6 +57,8 @@ def longueur(t):
     return res
 
 
+
+
 #--------------------Fonction blancLigne--------------------
 #-----------------------------------------------------------
 #Entrée : une liste de strings t, un entier n, tels que longueur(t)<=n
@@ -67,6 +69,12 @@ def longueur(t):
 def blancLigne(t,n):
     return (n-longueur(t))**3
 
+#----------------------Fonction possibleString--------------------
+#-----------------------------------------------------------------
+#Entree: words:liste des mots, stringLength:longeur de la ligne
+#Sortie: True si on peut mettre les mots de "words" dans une ligne de longueur "stringLength", False sinon
+def possibleString(words, stringLength):
+    return (stringLength >= longueur(words))
 
 
 #--------------------Fonction min-------------------------
@@ -194,16 +202,3 @@ def measureOfTextEquilibrium(text, stringLength):
     for i in range(0, len(text)-1):
         somme += blancLigne(text[i], stringLength)
     return somme
-
-#----------------------Fonction possibleString--------------------
-#-----------------------------------------------------------------
-#Entree: words:liste des mots, stringLength:longeur de la ligne
-#Sortie: True si on peut mettre les mots de "words" dans une ligne de longueur "stringLength", False sinon
-def possibleString(words, stringLength):
-    for x in range(0, len(words)):
-        if stringLength >= len(words[x]):
-            stringLength -= len(words[x])+1
-        else:
-            return False
-    
-    return True
