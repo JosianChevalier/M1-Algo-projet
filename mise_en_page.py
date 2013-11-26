@@ -1,6 +1,7 @@
+# -*- coding: UTF-8 -*-
 import os, subprocess
 
-#teste si int est une chaine de caractère représentant un entier
+#teste si int est une chaine de caractÃ¨re reprÃ©sentant un entier
 def is_int(s):
     try: 
         int(s)
@@ -19,26 +20,26 @@ def main():
     print "[3] : Programmation dynamique : matrice bottom-up"
     print "[4] : Programmation dynamique : memoization bottom-up"
     print "[5] : Programmation dynamique : memoization top-down"
-    choix=raw_input("Entrez le numéro de l'algo à tester : ")
-    while choix not in ["1","2","3","4","5"]: #tant que l'utilisateur n'a pas rentré un nombre correspondantà un algo
-        choix=raw_input("Erreur ! Entrez un nombre de  1 à 5 correspondant à l'algo : ") #on l'invite à retenter
+    choix=raw_input("Entrez le numÃ©ro de l'algo Ã  tester : ")
+    while choix not in ["1","2","3","4","5"]: #tant que l'utilisateur n'a pas rentrÃ© un nombre correspondantÃ  un algo
+        choix=raw_input("Erreur ! Entrez un nombre de  1 Ã  5 correspondant Ã  l'algo : ") #on l'invite Ã  retenter
     choix=int(choix)
 
     #---------------Choix du fichier source---------------
-    source=raw_input("Fichier qui contient le texte à formater : ")
-    while not os.path.isfile(source): #on invite l'utilisateur à retenter si le fichier source n'existe pas
-        print "Fichier non trouvé."
-        source=raw_input("Fichier qui contient le texte à formater : ")
+    source=raw_input("Fichier qui contient le texte Ã  formater : ")
+    while not os.path.isfile(source): #on invite l'utilisateur Ã  retenter si le fichier source n'existe pas
+        print "Fichier non trouvÃ©."
+        source=raw_input("Fichier qui contient le texte Ã  formater : ")
 
     #---------------Choix du fichier destination---------------
-    dest=raw_input("Fichier où enregistrer le texte formaté : ")
+    dest=raw_input("Fichier oÃ¹ enregistrer le texte formatÃ© : ")
 
 
     #---------------Choix de la longueur d'une ligne---------------
-    length_line=raw_input("Nombre de caractère par ligne (par défaut 60) : ")
+    length_line=raw_input("Nombre de caractÃ¨re par ligne (par dÃ©faut 60) : ")
     while not (is_int(length_line) or length_line==""):
         length_line=raw_input("Erreur ! Entrez un entier : ")
-    if length_line=="": #si l'utilisateur n'a rien rentré, 60 par défaut
+    if length_line=="": #si l'utilisateur n'a rien rentrÃ©, 60 par dÃ©faut
         length_line=60
     else :
         length_line=int(length_line)        
