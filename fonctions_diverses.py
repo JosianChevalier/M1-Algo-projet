@@ -183,7 +183,7 @@ def decoupage(fonction):
         
         print "Le decoupage a pris %f secondes" % (end-start)
 	print "Le desequilibre est de ", res[1]
-	input("Appuyez sur ENTREE pour continuer")
+	raw_input("Appuyez sur ENTREE pour continuer")
 
 #----------------Fonction measureOfTextEquilibrium----------------
 #-----------------------------------------------------------------
