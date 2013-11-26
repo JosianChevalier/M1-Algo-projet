@@ -27,7 +27,7 @@ def equilibre(texte,n):
         else:
             curr=0
             deseq='infini'
-            while longueur(texte[i:i+curr+1])<n:
+            while longueur(texte[i:i+curr+1])<=n:
                 suite=MEMO.get(i+curr+1)
                 deseq_bis=blancLigne(texte[i:i+curr+1],n)+suite[1]
                 if min(deseq,deseq_bis)==deseq_bis:

@@ -188,7 +188,8 @@ def decoupage(fonction):
        
         texte_final=list_to_text(res[0])
         enregistre(texte_final,fichier_dest)
-        
+
+        print
         print "Le decoupage a pris %f secondes" % (end-start)
 	print "Le desequilibre est de ", res[1]
 
