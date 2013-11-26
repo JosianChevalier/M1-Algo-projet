@@ -177,12 +177,13 @@ def decoupage(fonction):
         res=fonction(texte_formate,ligne)
 
         end=time.time()
-        
-        print "Le decoupage a pris %f secondes" % (end-start)
-	print "Le déséquilibre est de ", res[1]
        
         texte_final=list_to_text(res[0])
         enregistre(texte_final,fichier_dest)
+        
+        print "Le decoupage a pris %f secondes" % (end-start)
+	print "Le desequilibre est de ", res[1]
+	input("Appuyez sur ENTREE pour continuer")
 
 #----------------Fonction measureOfTextEquilibrium----------------
 #-----------------------------------------------------------------
@@ -197,7 +198,7 @@ def measureOfTextEquilibrium(text, stringLength):
 #----------------------Fonction possibleString--------------------
 #-----------------------------------------------------------------
 #Entree: words:liste des mots, stringLength:longeur de la ligne
-#Sortie: est-ce que c'est possible de mettre la proposition a partir des mots dans "words" en ligne de longeur "stringLength"
+#Sortie: True si on peut mettre les mots de "words" dans une ligne de longueur "stringLength", False sinon
 def possibleString(words, stringLength):
     for x in range(0, len(words)):
         if stringLength >= len(words[x]):
