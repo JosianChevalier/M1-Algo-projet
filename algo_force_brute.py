@@ -75,10 +75,10 @@ def equilibre(texte, n):
     a = bruteForceWithTransition(texte, [[firstWord]], blancLigne([firstWord], n), n)
     b = bruteForceWoTransition(texte, [[firstWord]], blancLigne([firstWord], n), n)
     if(a[2] < b[2]):
-        print a[1]
+        #print a[1]
         return a[1],a[2]
     else:
-        print b[1]
+        #print b[1]
         return b[1],b[2]
 		
 

@@ -38,7 +38,7 @@ def equilibre(texte, n):
     textEq = [[texte[0][:]]]
     texte.pop(0)
     result = equilibreGlouton(texte, textEq, n)
-    print result
+    #print result
     return result, measureOfTextEquilibrium(result, n)
 
 
