@@ -202,3 +202,42 @@ def measureOfTextEquilibrium(text, stringLength):
     for i in range(0, len(text)-1):
         somme += blancLigne(text[i], stringLength)
     return somme
+
+#------------------------Fonction variance------------------------
+#-----------------------------------------------------------------
+#Entree: text: liste de listes des mots;
+#Sortie: la valeur de la variance de texte sauf que pour la derniere ligne
+def variance(text):
+    sommeLongueurs = 0;
+    for i in range(0, len(text)-1):
+        sommeLongueurs += longueur(text[i])
+    moyen = sommeLongueurs/(len(text)-1)
+
+    sommeEcartesCarres = 0
+    for i in range(0, len(text)-1):
+        sommeEcartesCarres += (moyen - longueur(text[i]))
+
+    return sommeEcartesCarres/(len(text)-1)
+
+
+#-------------------Fonction longShortDistance--------------------
+#-----------------------------------------------------------------
+#Entree: text: liste de listes des mots;
+#Sortie: la difference entre la ligne la plus longue et la plus courte
+def longShortDistance(text):
+    plusLongue = 0;
+    plusCourte = sys.maxint
+    for i in range(0, len(text)-1):
+        if(longueur(text[i])>plusLongue)):
+            plusLongue = longueur(text[i])
+        if(longueur(text[i])<plusCourte):
+            plusCourte = longueur(text[i])
+
+    return plusLongue - plusCourte
+
+
+
+
+
+
+
