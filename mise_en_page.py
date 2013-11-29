@@ -19,16 +19,14 @@ def choixMesure(choix):
             print "[3] : Variance"
         res=raw_input("Entrez le numéro de la mesure : ")
         if choix in [2,3]:
-             while res not in ["1","2"]:
+             while res not in ["","1","2"]:
                 res=raw_input("Erreur ! Entrez un nombre correspondant à la mesure : ")
         elif choix in [4,5]:
-             while res not in ["1","2","3"]:
+             while res not in ["","1","2","3"]:
                 res=raw_input("Erreur ! Entrez un nombre correspondant à la mesure : ")
-        else :
-            res=='1'
 
                 
-        if res=='1':
+        if res=='1' or res=="":
             return 'b'
         elif res=='2':
             return 'e'
@@ -75,7 +73,6 @@ def main():
 
     #---------------Choix du paramètre de mesure---------------
     mesure=choixMesure(choix)
-    print mesure
     
     if choix==1:
         os.system("python algo_force_brute.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
