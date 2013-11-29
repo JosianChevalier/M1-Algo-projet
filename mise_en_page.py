@@ -9,6 +9,34 @@ def is_int(s):
     except ValueError:
         return False
 
+def choixMesure(choix):
+
+    if choix !=1:
+        print "Choisissez la mesure de déséquilibre : "
+        print "[1] : Espaces blancs"
+        print "[2] : Etendue statistique"
+        if choix in [4,5]:
+            print "[3] : Variance"
+        res=raw_input("Entrez le numéro de la mesure : ")
+        if choix in [2,3]:
+             while res not in ["1","2"]:
+                res=raw_input("Erreur ! Entrez un nombre correspondant à la mesure : ")
+        elif choix in [4,5]:
+             while res not in ["1","2","3"]:
+                res=raw_input("Erreur ! Entrez un nombre correspondant à la mesure : ")
+        else :
+            res=='1'
+
+                
+        if res=='1':
+            return 'b'
+        elif res=='2':
+            return 'e'
+        else :
+            return 'v'
+    return 'v'
+            
+    
 
 def main():
 
@@ -43,17 +71,22 @@ def main():
         length_line=60
     else :
         length_line=int(length_line)        
+
+
+    #---------------Choix du paramètre de mesure---------------
+    mesure=choixMesure(choix)
+    print mesure
     
     if choix==1:
-        os.system("python algo_force_brute.py --lengthline %i %s %s" % (length_line, source, dest))
+        os.system("python algo_force_brute.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
     elif choix==2:
-        os.system("python algo_glouton.py --lengthline %i %s %s" % (length_line, source, dest))
+        os.system("python algo_glouton.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
     elif choix==3:
-        os.system("python algo_matrices_bottom-up.py --lengthline %i %s %s" % (length_line, source, dest))
+        os.system("python algo_matrices_bottom-up.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
     elif choix==4:
-        os.system("python algo_memoization_bottom-up.py --lengthline %i %s %s" % (length_line, source, dest))
+        os.system("python algo_memoization_bottom-up.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
     elif choix==5:
-        os.system("python algo_memoization_top-down.py --lengthline %i %s %s" % (length_line, source, dest))
+        os.system("python algo_memoization_top-down.py --lengthline %i --mesure %s %s %s" % (length_line, mesure, source, dest))
        
 if __name__ == "__main__":
     main()
