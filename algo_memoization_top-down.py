@@ -114,9 +114,9 @@ def equilibre_reccurVar(texte, n, ind):
         while longueur(texte[0:curr+1])<=n:
             reccur=MEMO.get(ind+curr+1)
             if reccur==-1:
-                reccur=equilibre_reccur(texte[curr+1:],n,ind+curr+1)
+                reccur=equilibre_reccurVar(texte[curr+1:],n,ind+curr+1)
                 MEMO.add(ind+1,reccur[0],reccur[1])
-            s1=blancLigne(texte[0:curr+1],n)+reccur[1]
+            s1=variance([texte[0:curr+1]]+reccur[0])
             if min(s1,s)==s1:
                 s=s1
                 res=([texte[0:curr+1]]+reccur[0],s)
