@@ -11,6 +11,25 @@ from fonctions_diverses import decoupage, Memo
 
 from fonctions_diverses import longueur, blancLigne, min
 
+
+
+#-----------------------Fonctions choix-------------------------
+#-----------------------------------------------------------------------
+
+#Choisit la fonction à appeler en fonction de la medure d'équilibre
+
+
+def choix(texte, n, m):
+
+    if m == 'b':
+        return equilibre(texte,n)
+    elif m == 'e':
+        return equilibreEtendue(texte,n)
+    elif m == 'v':
+        return equilibreVar(texte,n)
+    
+
+
 #-----------------------Fonctions d'équilibrage-------------------------
 #-----------------------------------------------------------------------
 
@@ -21,8 +40,11 @@ from fonctions_diverses import longueur, blancLigne, min
 #           - R2 est la somme de blancLigne pour chaque ligne
 
 def equilibre(texte,n):
+    print "1"
+    global MEMO
+    MEMO=Memo()
     for i in range (len(texte)-1,-1,-1):    #Pour i allant de l'indice du dernier mot au premier
-        if longueur(texte[i:])<n:
+        if longueur(texte[i:])<=n:
             res=([texte[i:]],0)        
         else:
             curr=0
@@ -30,13 +52,56 @@ def equilibre(texte,n):
             while longueur(texte[i:i+curr+1])<=n:
                 suite=MEMO.get(i+curr+1)
                 deseq_bis=blancLigne(texte[i:i+curr+1],n)+suite[1]
-                if min(deseq,deseq_bis)==deseq_bis:
+                if min(deseq,deseq_bis)==deseq_bis: #on notera que la fonction min a été surchargée pour
+                                                    #considérer 'infini' comme l'infini
                     deseq=deseq_bis
                     res=([texte[i:i+curr+1]]+suite[0],deseq)
                 curr+=1
         MEMO.add(i,res[0],res[1])
     return res
 
+#-------------------------Déclinaison étendue---------------------------
+#-----------------------------------------------------------------------
+
+
+def equilibreEtendue(texte, n):  
+    print "2"
+    global MEMO
+    MEMO=Memo()
+    for i in range (len(texte)-1,-1,-1):    #Pour i allant de l'indice du dernier mot au premier
+        if longueur(texte[i:])<=n:
+            res=([texte[i:]],0,'infini',0)
+        else:
+            curr=0
+            deseq='infini'
+            longtext=longueur(texte[i:i+1])
+            while longtext<=n:
+                suite=MEMO.get_etendue(i+curr+1)
+                c=suite[2]
+                l=suite[3]
+                if min(longtext,c)==longtext:
+                    c=longtext
+                if min(longtext,l)==l:
+                    l=longtext                
+                deseq_bis=l-c
+                if min(deseq,deseq_bis)==deseq_bis: #on notera que la fonction min a été surchargée pour
+                                                    #considérer 'infini' comme l'infini
+                    deseq=deseq_bis
+                    res=([texte[i:i+curr+1]]+suite[0],deseq,c,l)
+                curr+=1
+                longtext=longueur(texte[i:i+curr+1])
+        MEMO.add_etendue(i,res[0],res[1],res[2],res[3])
+    return res
+
+
+#-------------------------Déclinaison variance---------------------------
+#-----------------------------------------------------------------------
+
+
+def equilibreVar(texte, n):
+    global MEMO
+    MEMO=Memo()
+    return equilibre_reccurVar(texte, n, 0)
 
 #------------------------------------------Main--------------------------------------
 #------------------------------------------------------------------------------------
@@ -46,9 +111,7 @@ def equilibre(texte,n):
 
 def main():
 
-    global MEMO
-    MEMO=Memo()
-    f=equilibre
+    f=choix
     decoupage(f)
 
 
