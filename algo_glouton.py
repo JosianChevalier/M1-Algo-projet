@@ -1,14 +1,14 @@
 # -*- coding: UTF-8 -*-
 import sys
 sys.setrecursionlimit(50000) #Augmentation du nb max de mots à traiter
-from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, measureOfTextEquilibrium, possibleString, longueur, blancLigne
+from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, measureOfTextEquilibrium, possibleString, longueur, blancLigne, etendue
 
 def choix(texte, n, m):
     
     if m == 'b':
         return equilibreBl(texte,n)
     elif m == 'e':
-        return equilibreEtendue(texte,n)
+        return equilibreEtendu(texte,n)
 
 #---------------------------------------------------------------------------------
 #------------------------------Approche gloutonne---------------------------------
@@ -29,7 +29,7 @@ def equilibreGloutonBl(words, textEquilibre, n):
             textEquilibre = [[words[0][:]]]
             words.pop(0)
             
-            return equilibreGlouton(words, textEquilibre, n)
+            return equilibreGloutonBl(words, textEquilibre, n)
         
         if(possibleString(textEquilibre[-1] + [words[0]], n)):
             lastString = textEquilibre[-1][:] + [words[0][:]]
@@ -37,14 +37,14 @@ def equilibreGloutonBl(words, textEquilibre, n):
             textEquilibre.append(lastString)
             words.pop(0)
             
-            return equilibreGlouton(words, textEquilibre, n)
+            return equilibreGloutonBl(words, textEquilibre, n)
         else:
             lastString = [words[0][:]]
             words.pop(0)
             textEquilibre = textEquilibre[:]
             textEquilibre.append(lastString)
             
-            return equilibreGlouton(words, textEquilibre, n)
+            return equilibreGloutonBl(words, textEquilibre, n)
         
 
 def equilibreBl(texte, n):
@@ -65,11 +65,11 @@ def equilibreGloutonEtendu(words, textEquilibre, n):
         if(textEquilibre == []):
             textEquilibre = [[words[0][:]]]
             words.pop(0)
-            return equilibreGlouton(words, textEquilibre, n)
+            return equilibreGloutonEtendu(words, textEquilibre, n)
         
         textWithTransfer = textEquilibre[:]
         textWithTransfer.append([words[0][:]])
-        print "WT", textWithTransfer
+        #print "WT", textWithTransfer
         
         if(possibleString(textEquilibre[-1] + [words[0]], n)):
             lastString = textEquilibre[-1][:] + [words[0][:]]
@@ -77,26 +77,26 @@ def equilibreGloutonEtendu(words, textEquilibre, n):
             textWoTransfer.pop(-1)
             textWoTransfer.append(lastString)
             words.pop(0)
-            print "WoT", textWoTransfer
+            #print "WoT", textWoTransfer
             
-            maxMinWoT = longShortDistance(textWoTransfer)
-            distanceWoT = maxMinWoT[0]-maxMinWoT[1]
-            maxMinWT = longShortDistance(textWithTransfer)
-            distanceWT = maxMinWT[0]-maxMinWT[1]
+            #maxMinWoT = etendue(textWoTransfer)
+            distanceWoT = etendue(textWoTransfer)#maxMinWoT[0]-maxMinWoT[1]
+            #maxMinWT = etendue(textWithTransfer)
+            distanceWT = etendue(textWithTransfer)#maxMinWT[0]-maxMinWT[1]
             if(distanceWoT < distanceWT):
-                return equilibreGlouton(words, textWoTransfer, n)
+                return equilibreGloutonEtendu(words, textWoTransfer, n)
             else:
-                return equilibreGlouton(words, textWithTransfer, n)
+                return equilibreGloutonEtendu(words, textWithTransfer, n)
         else:
             words.pop(0)
-            return equilibreGlouton(words, textWithTransfer, n)
+            return equilibreGloutonEtendu(words, textWithTransfer, n)
 
 def equilibreEtendu(texte, n):
     textEq = [[texte[0][:]]]
     texte.pop(0)
     result = equilibreGloutonEtendu(texte, textEq, n)
     #print result
-    return result, measureOfTextEquilibrium(result, n)
+    return result, etendue(result)
 
 
 #------------------------------------------Main--------------------------------------

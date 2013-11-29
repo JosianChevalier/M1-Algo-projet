@@ -35,14 +35,32 @@ def variance(text):
 def etendue(text):
     plusLongue = 0;
     plusCourte = sys.maxint
-    for i in range(0, len(text)-1):
-        if(longueur(text[i])>plusLongue):
-            plusLongue = longueur(text[i])
-        if(longueur(text[i])<plusCourte):
-            plusCourte = longueur(text[i])
+    for i in range(0, len(text)):
+        lon = longueur(text[i])
+        if(lon>plusLongue):
+            plusLongue = lon
+        if(lon<plusCourte):
+            plusCourte = lon
 
     return plusLongue - plusCourte
 
+def plusLong(text):
+    plusLongue = 0;
+    for i in range(0, len(text)):
+        lon = longueur(text[i])
+        if(lon>plusLongue):
+            plusLongue = lon
+    
+    return plusLongue
+
+def plusCourt(text):
+    plusCourte = 0;
+    for i in range(0, len(text)):
+        lon = longueur(text[i])
+        if(lon<plusCourte):
+            plusCourte = lon
+    
+    return plusCourte
 
 
 #---------------------MEMOIZATION-----------------------

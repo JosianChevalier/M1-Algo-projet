@@ -1,5 +1,5 @@
 import sys
-from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne, measureOfTextEquilibrium, possibleString
+from fonctions_diverses import formate, args_corrects, enregistre, list_to_text, decoupage, blancLigne, measureOfTextEquilibrium, possibleString, longueur, etendue, plusLong, plusCourt
 
 def choix(texte, n, m):
 
@@ -138,10 +138,10 @@ def fusionTextesEtendue(text1, text2, stringLength):
             text2.pop(0)
         
         resultText = text1 + [fusionedString] + text2
-        #print "minmax for fusioned text:", longShortDistance(resultText)
+        #print "minmax for fusioned text:", etendue(resultText)
         
         
-        return True, longShortDistance(resultText), resultText
+        return True, etendue(resultText), resultText
     else:
         #print "Fusion impossible"
         return False,[0,0],[]
@@ -205,9 +205,9 @@ def equilibreEtendue(words, stringLength): #O(n^4)
                     
                     #Essai de fusion des soustextes
                     fusion = fusionTextesEtendue(stringMatrix[row][j][:], stringMatrix[i][column][:], stringLength)
-                    if(fusion[0] and fusion[1][0] - fusion[1][1] < maxMatrix[i][j] - minMatrix[i][j]):
-                        maxMatrix[i][j] = fusion[1][0]
-                        minMatrix[i][j] = fusion[1][1]
+                    if(fusion[0] and fusion[1] < maxMatrix[i][j] - minMatrix[i][j]):
+                        maxMatrix[i][j] = plusLong(fusion[2])
+                        minMatrix[i][j] = plusCourt(fusion[2])
                         stringMatrix[i][j] = fusion[2]
                     #print "Placed string", fusion[2]
                     

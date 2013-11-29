@@ -69,7 +69,7 @@ def bruteForceWoTransition(words, text, measure, strl):
 
 			
 		
-def equilibre(texte, n):
+def equilibre(texte, n, m):
     firstWord = texte[0][:]
     texte.pop(0)
     a = bruteForceWithTransition(texte, [[firstWord]], blancLigne([firstWord], n), n)
