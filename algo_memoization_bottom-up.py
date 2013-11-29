@@ -9,7 +9,7 @@ from fonctions_diverses import decoupage, Memo
 #--------------Fonctions utilisés par la fonction equilibre-------------
 #-----------------------------------------------------------------------
 
-from fonctions_diverses import longueur, blancLigne, min
+from fonctions_diverses import longueur, blancLigne, min, Memo, variance
 
 
 
@@ -40,7 +40,6 @@ def choix(texte, n, m):
 #           - R2 est la somme de blancLigne pour chaque ligne
 
 def equilibre(texte,n):
-    print "1"
     global MEMO
     MEMO=Memo()
     for i in range (len(texte)-1,-1,-1):    #Pour i allant de l'indice du dernier mot au premier
@@ -65,7 +64,6 @@ def equilibre(texte,n):
 
 
 def equilibreEtendue(texte, n):  
-    print "2"
     global MEMO
     MEMO=Memo()
     for i in range (len(texte)-1,-1,-1):    #Pour i allant de l'indice du dernier mot au premier
@@ -96,12 +94,27 @@ def equilibreEtendue(texte, n):
 
 #-------------------------Déclinaison variance---------------------------
 #-----------------------------------------------------------------------
-
+#Pour la variance on remplace simplement l'entrée 
 
 def equilibreVar(texte, n):
     global MEMO
     MEMO=Memo()
-    return equilibre_reccurVar(texte, n, 0)
+    for i in range (len(texte)-1,-1,-1):    #Pour i allant de l'indice du dernier mot au premier
+        if longueur(texte[i:])<=n:
+            res=([texte[i:]],0)        
+        else:
+            curr=0
+            deseq='infini'
+            while longueur(texte[i:i+curr+1])<=n:
+                suite=MEMO.get(i+curr+1)
+                deseq_bis=variance([texte[i:i+curr+1]]+suite[0])
+                if min(deseq,deseq_bis)==deseq_bis: #on notera que la fonction min a été surchargée pour
+                                                    #considérer 'infini' comme l'infini
+                    deseq=deseq_bis
+                    res=([texte[i:i+curr+1]]+suite[0],deseq)
+                curr+=1
+        MEMO.add(i,res[0],res[1])
+    return res
 
 #------------------------------------------Main--------------------------------------
 #------------------------------------------------------------------------------------

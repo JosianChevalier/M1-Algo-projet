@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import sys
 sys.setrecursionlimit(50000) #Augmentation du nb max de mots à traiter
-from fonctions_diverses import decoupage, Memo
+from fonctions_diverses import decoupage
 
 #---------------------------------------------------------------------------------
 #---------------------Approche programmation dynamique top-down-------------------
@@ -11,7 +11,7 @@ from fonctions_diverses import decoupage, Memo
 #--------------Fonctions utilisés par la fonction equilibre-------------
 #-----------------------------------------------------------------------
 
-from fonctions_diverses import longueur, blancLigne, min
+from fonctions_diverses import longueur, blancLigne, min, Memo, variance
 
 #-----------------------Fonctions choix-------------------------
 #-----------------------------------------------------------------------

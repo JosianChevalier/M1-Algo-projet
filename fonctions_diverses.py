@@ -7,9 +7,47 @@ import time
 #--------------------Fonctions diverses communes aux algorithmes------------------
 #---------------------------------------------------------------------------------
 
+#---------------------------------------------------------------------
+#----------------CALCUL DE LA DISPERSION STATISTIQUE------------------
+#---------------------------------------------------------------------
 
-#-------------------------------Memoization----------------------------
-#----------------------------------------------------------------------
+#------------------------Fonction variance------------------------
+#-----------------------------------------------------------------
+#Entree: text: liste de listes des mots;
+#Sortie: la valeur de la variance de la longueur effective des lignes du texte
+#           (à l'exception de la dernière)        
+def variance(text):
+    sommeLongueurs = 0.0;
+    for i in range(0, len(text)-1):
+        sommeLongueurs += longueur(text[i])
+    moyen = sommeLongueurs/(len(text)-1)
+
+    sommeEcartesCarres = 0
+    for i in range(0, len(text)-1):
+        sommeEcartesCarres += (moyen - longueur(text[i]))**2
+
+    return sommeEcartesCarres/(len(text)-1)
+
+#-------------------Fonction etendue--------------------
+#-----------------------------------------------------------------
+#Entree: text: liste de listes des mots;
+#Sortie: la difference entre la ligne la plus longue et la plus courte
+def etendue(text):
+    plusLongue = 0;
+    plusCourte = sys.maxint
+    for i in range(0, len(text)-1):
+        if(longueur(text[i])>plusLongue):
+            plusLongue = longueur(text[i])
+        if(longueur(text[i])<plusCourte):
+            plusCourte = longueur(text[i])
+
+    return plusLongue - plusCourte
+
+
+
+#---------------------MEMOIZATION-----------------------
+#-------------------------------------------------------
+
 
 #entrée du memo,composée de la portion de texte équilibré et du poid de l'équilibrage, associé dans le
 #dictionnaire à l'indice du mot ou commence la portion de texte
@@ -19,6 +57,15 @@ class Data_entry:
         self.result=r
         self.sum=s
 
+#Declinaison pour l'etendue de la Data_entry : ajout de la longueur des lignes plus longues et plus courtes
+
+class Data_entry_etendue:
+    def __init__(self,r,e,c,l):
+        self.result=r
+        self.etend=e    
+        self.long=l         
+        self.courte=c
+        
 #mémo où sont stocké les équilibrages déjà calculés
 
 class Memo:
@@ -29,6 +76,10 @@ class Memo:
         d=Data_entry(fin_texte,somme)
         self.data[ind]=d
 
+    def add_etendue(self,ind,fin_texte,etendue,courte,longue):  #version etendue de la fonction add
+        d=Data_entry_etendue(fin_texte,etendue,courte,longue)
+        self.data[ind]=d
+
     def get(self,i):
         try:
             res=self.data[i]
@@ -36,6 +87,12 @@ class Memo:
             return -1
         return res.result, res.sum
 
+    def get_etendue(self,i): #version etendue de la fonction get
+        try:
+            res=self.data[i]
+        except KeyError:
+            return -1
+        return res.result, res.etend, res.courte, res.long
 
 
 
@@ -106,6 +163,7 @@ def args_corrects():
     parser.add_argument('source', metavar='source.txt', type=str, nargs='+',help='Source file which contains the text to cut in lines')
     parser.add_argument('destination', metavar='destination.txt', type=str, nargs='+',help='Destination file to write the result')
     parser.add_argument('--lengthline', dest='length_line', action='store', default='60',help='Choose the length of the line (default 60 chars)')
+    parser.add_argument('--mesure', dest='mesure', action='store', default='b',help='b to use blanks, e for scope, v for variance')
 
     args = parser.parse_args()
 
@@ -118,13 +176,17 @@ def args_corrects():
         finally :
             source.close()
         length=int(args.length_line)
-        return (True,texte_source,args.destination[0],length)
-    except (OSError, IOError):        
+        if args.mesure not in ['v','b','e']:
+            print "\nMESURE NON VALIDE."
+            print 'Usage : decoupage_top-down.py source-file.txt destination-fil.txt'
+            return False,"","",0,""
+        return (True,texte_source,args.destination[0],length, args.mesure)
+    except (OSError, IOError):
         print "\nFICHIER SOURCE NON VALIDE."
         print 'Usage : decoupage_top-down.py source-file.txt destination-fil.txt'
-        return False,"","",0
+        return False,"","",0,""
     print "\nErreur inconnue."
-    return False,"","",0
+    return False,"","",0,""
 
 
 #-----------------------Fonction enregistre---------------------
@@ -174,7 +236,7 @@ def list_to_text(a):
 def decoupage(fonction):
     
     
-    correct,texte_source,fichier_dest,ligne=args_corrects()
+    correct,texte_source,fichier_dest,ligne,mesure=args_corrects()
 
     if correct :
         
@@ -182,7 +244,7 @@ def decoupage(fonction):
         
         start=time.time()
         
-        res=fonction(texte_formate,ligne)
+        res=fonction(texte_formate,ligne,mesure)
 
         end=time.time()
        
@@ -191,7 +253,7 @@ def decoupage(fonction):
 
         print
         print "Le decoupage a pris %f secondes" % (end-start)
-	print "Le desequilibre est de ", res[1]
+        print "Le desequilibre est de ", res[1]
 
 #----------------Fonction measureOfTextEquilibrium----------------
 #-----------------------------------------------------------------
@@ -202,44 +264,3 @@ def measureOfTextEquilibrium(text, stringLength):
     for i in range(0, len(text)-1):
         somme += blancLigne(text[i], stringLength)
     return somme
-
-#------------------------Fonction variance------------------------
-#-----------------------------------------------------------------
-#Entree: text: liste de listes des mots;
-#Sortie: la valeur de la variance de texte sauf que pour la derniere ligne
-def variance(text):
-    sommeLongueurs = 0;
-    for i in range(0, len(text)-1):
-        sommeLongueurs += longueur(text[i])
-    moyen = sommeLongueurs/(len(text)-1)
-
-    sommeEcartesCarres = 0
-    for i in range(0, len(text)-1):
-        sommeEcartesCarres += (moyen - longueur(text[i]))
-
-    return sommeEcartesCarres/(len(text)-1)
-
-
-#-------------------Fonction longShortDistance--------------------
-#-----------------------------------------------------------------
-#Entree: text: liste de listes des mots
-#Sortie: la difference entre la ligne la plus longue et la plus courte
-def longShortDistance(text):
-    plusLongue = 0;
-    plusCourte = sys.maxint
-    length = 0
-    for i in range(0, len(text)):
-        length = longueur(text[i])
-        if(length > plusLongue):
-            plusLongue = length
-        if(length < plusCourte):
-            plusCourte = length
-
-    return plusLongue, plusCourte
-
-
-
-
-
-
-
