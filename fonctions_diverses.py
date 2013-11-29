@@ -222,18 +222,20 @@ def variance(text):
 
 #-------------------Fonction longShortDistance--------------------
 #-----------------------------------------------------------------
-#Entree: text: liste de listes des mots;
+#Entree: text: liste de listes des mots
 #Sortie: la difference entre la ligne la plus longue et la plus courte
 def longShortDistance(text):
     plusLongue = 0;
     plusCourte = sys.maxint
-    for i in range(0, len(text)-1):
-        if(longueur(text[i])>plusLongue)):
-            plusLongue = longueur(text[i])
-        if(longueur(text[i])<plusCourte):
-            plusCourte = longueur(text[i])
+    length = 0
+    for i in range(0, len(text)):
+        length = longueur(text[i])
+        if(length > plusLongue):
+            plusLongue = length
+        if(length < plusCourte):
+            plusCourte = length
 
-    return plusLongue - plusCourte
+    return plusLongue, plusCourte
 
 
 
