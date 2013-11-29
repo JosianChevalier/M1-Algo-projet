@@ -17,7 +17,7 @@ def choixMesure(choix):
         print "[2] : Etendue statistique"
         if choix in [4,5]:
             print "[3] : Variance"
-        res=raw_input("Entrez le numéro de la mesure : ")
+        res=raw_input("Entrez le numéro de la mesure (1 par défaut) : ")
         if choix in [2,3]:
              while res not in ["","1","2"]:
                 res=raw_input("Erreur ! Entrez un nombre correspondant à la mesure : ")
